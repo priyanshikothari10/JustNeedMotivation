@@ -178,6 +178,7 @@ Smooth animated transitions
 
 Minimalistic, distraction-free interface  
 
+<<<<<<< HEAD
 ## ✨ New Feature: Productivity Dashboard
 
 - 🎯 Set your main goal for the day (DSA / AWS / College / Python)
@@ -187,6 +188,8 @@ Minimalistic, distraction-free interface
 
 This feature helps users stay consistent, organized, and productive.
 
+=======
+>>>>>>> 50850b8 (docs: improve README with detailed project overview and setup guide)
 
 
 \## Navigation
@@ -554,9 +557,13 @@ MIT License
 ## 🌐 Live Demo
 
 
+<<<<<<< HEAD
 ✨ JustNeedMotivation – Live at: https://priyanshicloud.space  
 Deployed on my own custom domain with full responsive web support.
 
+=======
+https://justneedmotivation.vercel.app
+>>>>>>> 50850b8 (docs: improve README with detailed project overview and setup guide)
 
 
 
