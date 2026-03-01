@@ -178,6 +178,15 @@ Smooth animated transitions
 
 Minimalistic, distraction-free interface  
 
+## ✨ New Feature: Productivity Dashboard
+
+- 🎯 Set your main goal for the day (DSA / AWS / College / Python)
+- ⏱️ Focus Timer to boost deep work sessions
+- ✅ Task Manager to track daily progress
+- 📊 Weekly Productivity Analytics (tasks completed + focus minutes)
+
+This feature helps users stay consistent, organized, and productive.
+
 
 
 \## Navigation
