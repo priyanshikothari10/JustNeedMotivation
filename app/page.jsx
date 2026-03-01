@@ -7,6 +7,10 @@ import ProgressTracker from '../components/ProgressTracker'
 import QuoteCard from '../components/QuoteCard'
 import PomodoroTimer from '../components/PomodoroTimer'
 import DeepWorkStreak from '../components/DeepWorkStreak'
+<<<<<<< HEAD
+=======
+import WeeklyAnalytics from '../components/WeeklyAnalytics'
+>>>>>>> d3d650a (✨ Added Productivity Dashboard: goal setter, focus timer, tasks & weekly analytics)
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState([])
@@ -73,6 +77,11 @@ export default function DashboardPage() {
           <ProgressTracker percent={percent} />
         </div>
 
+<<<<<<< HEAD
+=======
+        <WeeklyAnalytics />
+
+>>>>>>> d3d650a (✨ Added Productivity Dashboard: goal setter, focus timer, tasks & weekly analytics)
         <DeepWorkStreak />
 
         <QuoteCard />
