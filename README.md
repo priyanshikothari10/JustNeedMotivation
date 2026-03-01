@@ -545,7 +545,9 @@ MIT License
 ## 🌐 Live Demo
 
 
-https://justneedmotivation.vercel.app
+✨ JustNeedMotivation – Live at: https://priyanshicloud.space  
+Deployed on my own custom domain with full responsive web support.
+
 
 
 
