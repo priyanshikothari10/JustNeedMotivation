@@ -312,24 +312,6 @@ npm run dev
 
 ```
 
-
-
-Open:
-
-
-
-```
-
-http://localhost:3000
-
-```
-
-
-
----
-
-
-
 \# 🏃 Running the Application
 
 
@@ -558,11 +540,8 @@ MIT License
 
 
 <<<<<<< HEAD
-✨ JustNeedMotivation – Live at: https://priyanshicloud.space  
-Deployed on my own custom domain with full responsive web support.
+✨ JustNeedMotivation – Live at: https://justneedmotivation.vercel.app
 
-=======
-https://justneedmotivation.vercel.app
 >>>>>>> 50850b8 (docs: improve README with detailed project overview and setup guide)
 
 
