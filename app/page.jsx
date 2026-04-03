@@ -7,10 +7,8 @@ import ProgressTracker from '../components/ProgressTracker'
 import QuoteCard from '../components/QuoteCard'
 import PomodoroTimer from '../components/PomodoroTimer'
 import DeepWorkStreak from '../components/DeepWorkStreak'
-<<<<<<< HEAD
-=======
 import WeeklyAnalytics from '../components/WeeklyAnalytics'
->>>>>>> d3d650a (✨ Added Productivity Dashboard: goal setter, focus timer, tasks & weekly analytics)
+import StudentDashboard from '../components/StudentDashboard'
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState([])
@@ -65,11 +63,15 @@ export default function DashboardPage() {
         <div className="card">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-medium text-white">Today’s Tasks</h2>
-            <span className="text-sm text-gray-400">{completed}/{tasks.length}</span>
+            <span className="text-sm text-gray-400">
+              {completed}/{tasks.length}
+            </span>
           </div>
 
           <TasksSection tasks={tasks} setTasks={setTasks} />
         </div>
+
+        <StudentDashboard />
       </div>
 
       <aside className="space-y-6">
@@ -77,11 +79,8 @@ export default function DashboardPage() {
           <ProgressTracker percent={percent} />
         </div>
 
-<<<<<<< HEAD
-=======
         <WeeklyAnalytics />
 
->>>>>>> d3d650a (✨ Added Productivity Dashboard: goal setter, focus timer, tasks & weekly analytics)
         <DeepWorkStreak />
 
         <QuoteCard />

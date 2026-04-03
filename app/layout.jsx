@@ -11,9 +11,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="min-h-screen bg-black text-white antialiased">
         <div className="min-h-screen max-w-5xl mx-auto px-4 md:px-8">
-          <header className="py-6 flex items-center justify-between">
-            <h1 className="text-xl font-semibold tracking-tight text-neon-green">JustNeedMotivation</h1>
-            <nav className="space-x-3 text-sm">
+          <header className="py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <h1 className="text-xl font-semibold tracking-tight text-neon-green text-center md:text-left">JustNeedMotivation</h1>
+            <nav className="flex flex-wrap justify-center md:justify-end gap-2 text-sm">
               <Link href="/" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Dashboard</Link>
               <Link href="/daily" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Daily Log</Link>
               <Link href="/roadmap" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Roadmap</Link>
