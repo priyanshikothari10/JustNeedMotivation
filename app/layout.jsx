@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
             <h1 className="text-xl font-semibold tracking-tight text-neon-green text-center md:text-left">JustNeedMotivation</h1>
             <nav className="flex flex-wrap justify-center md:justify-end gap-2 text-sm">
               <Link href="/" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Dashboard</Link>
+              <Link href="/timer" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Timer</Link>
               <Link href="/daily" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Daily Log</Link>
               <Link href="/roadmap" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Roadmap</Link>
               <Link href="/rewards" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Rewards</Link>

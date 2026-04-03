@@ -5,14 +5,12 @@ import DailyFocusCard from '../components/DailyFocusCard'
 import TasksSection from '../components/TasksSection'
 import ProgressTracker from '../components/ProgressTracker'
 import QuoteCard from '../components/QuoteCard'
-import PomodoroTimer from '../components/PomodoroTimer'
 import DeepWorkStreak from '../components/DeepWorkStreak'
 import WeeklyAnalytics from '../components/WeeklyAnalytics'
 import StudentDashboard from '../components/StudentDashboard'
 
 export default function DashboardPage() {
   const [tasks, setTasks] = useState([])
-  const [showTimer, setShowTimer] = useState(false)
 
   useEffect(() => {
     try {
@@ -35,30 +33,7 @@ export default function DashboardPage() {
       <div className="md:col-span-2 space-y-6">
         <DailyFocusCard />
 
-        <div className="flex justify-start">
-          <button
-            type="button"
-            onClick={() => setShowTimer((prev) => !prev)}
-            className="px-4 py-2 rounded-md text-sm font-medium bg-neon-green text-black hover:bg-lime-300 transition shadow-sm"
-          >
-            {showTimer ? 'Hide Focus Timer' : 'Start Focus Timer'}
-          </button>
-        </div>
 
-        {showTimer && (
-          <div className="space-y-2">
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={() => setShowTimer(false)}
-                className="px-2 py-1 rounded-md text-xs font-medium bg-white/5 hover:bg-white/10 text-gray-200 border border-white/10 transition"
-              >
-                Close
-              </button>
-            </div>
-            <PomodoroTimer />
-          </div>
-        )}
 
         <div className="card">
           <div className="flex items-center justify-between mb-3">
