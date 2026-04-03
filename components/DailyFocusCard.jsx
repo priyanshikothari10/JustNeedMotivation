@@ -24,7 +24,7 @@ export default function DailyFocusCard() {
         <input
           value={focus}
           onChange={(e) => setFocus(e.target.value)}
-          placeholder="What is your main goal today? (DSA / AWS / College / Python)"
+          placeholder="What is your main goal today?"
           className="mt-2 w-full bg-transparent border border-white/6 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-neon-green"
         />
         <div className="mt-2 text-xs text-gray-400">Tip: keep it simple and focused — one main goal works best.</div>
