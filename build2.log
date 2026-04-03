@@ -1,0 +1,25 @@
+
+> justneedmotivation@0.1.0 build
+> next build
+
+   Γû▓ Next.js 14.0.0
+
+   Creating an optimized production build ...
+
+> Build error occurred
+Error: EINVAL: invalid argument, readlink 'C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\.next\types\package.json'
+    at async Object.readlink (node:internal/fs/promises:973:10)
+    at async C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\lib\recursive-delete.js:58:30
+    at async Promise.all (index 1)
+    at async recursiveDelete (C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\lib\recursive-delete.js:51:5)
+    at async C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\lib\recursive-delete.js:68:17
+    at async Promise.all (index 3)
+    at async recursiveDelete (C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\lib\recursive-delete.js:51:5)
+    at async C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\build\index.js:541:17
+    at async Span.traceAsyncFn (C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\trace\trace.js:105:20)
+    at async build (C:\Users\HP\OneDrive\Desktop\Priyanshi\Projects\JustNeedMotivation\node_modules\next\dist\build\index.js:186:29) {
+  errno: -4071,
+  code: 'EINVAL',
+  syscall: 'readlink',
+  path: 'C:\\Users\\HP\\OneDrive\\Desktop\\Priyanshi\\Projects\\JustNeedMotivation\\.next\\types\\package.json'
+}

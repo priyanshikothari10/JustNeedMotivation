@@ -1,0 +1,21 @@
+
+> justneedmotivation@0.1.0 build
+> next build
+
+   Γû▓ Next.js 14.0.0
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./app/api/student/route.js
+Module not found: Can't resolve '@/lib/mongodb'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./app/api/student/route.js
+Module not found: Can't resolve '@/models/Student'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors
