@@ -63,7 +63,12 @@ export default function RoadmapPage() {
               key={feature.id}
               className="border border-gray-800 rounded-lg p-5 space-y-2"
             >
-              <h2 className="text-lg font-medium line-through">{feature.title}</h2>
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-medium text-white/50">{feature.title}</h2>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/40 uppercase tracking-wider border border-white/5">
+                  Shipped
+                </span>
+              </div>
               <p className="text-sm text-gray-500">{feature.subtitle}</p>
 
               <ul className="list-disc list-inside text-sm text-gray-500 space-y-1 pt-2">

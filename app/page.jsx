@@ -32,9 +32,6 @@ export default function DashboardPage() {
     <div className="py-6 grid gap-6 grid-cols-1 md:grid-cols-3">
       <div className="md:col-span-2 space-y-6">
         <DailyFocusCard />
-
-
-
         <div className="card">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-medium text-white">Today’s Tasks</h2>
