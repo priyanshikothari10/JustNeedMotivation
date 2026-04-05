@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
               <Link href="/daily" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Daily Log</Link>
               <Link href="/roadmap" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Roadmap</Link>
               <Link href="/rewards" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Rewards</Link>
+              <Link href="/login" className="px-3 py-1 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 text-neon-blue transition ml-2">Login</Link>
             </nav>
           </header>
 
