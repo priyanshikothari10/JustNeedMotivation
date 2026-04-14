@@ -155,7 +155,7 @@ export default function StudentDashboard() {
         <textarea
           value={roadmapInput}
           onChange={(e) => setRoadmapInput(e.target.value)}
-          placeholder="Roadmap goals (comma separated: Web Dev, DSA, Projects...)"
+          placeholder="Roadmap goals"
           rows={2}
           className="w-full bg-transparent border border-white/10 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-neon-green"
         />
