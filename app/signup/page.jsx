@@ -3,21 +3,39 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useAuth } from '@/lib/AuthContext'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
+  const [formLoading, setFormLoading] = useState(false)
+  
+  const { signup } = useAuth()
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault()
+    setError('')
+
     if (password !== confirmPassword) {
-      alert("Passwords don't match!")
+      setError("Passwords don't match!")
       return
     }
-    // Integration logic here
-    console.log('Signing up with:', { name, email, password })
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long")
+      return
+    }
+
+    setFormLoading(true)
+
+    const result = await signup(name, email, password)
+    if (!result.success) {
+      setError(result.error || 'Failed to create account. Please try again.')
+      setFormLoading(false)
+    }
   }
 
   return (
@@ -35,6 +53,12 @@ export default function SignupPage() {
           <h2 className="text-3xl font-bold tracking-tight text-white mb-2">Create Account</h2>
           <p className="text-sm text-gray-400">Join us and start tracking your momentum.</p>
         </div>
+
+        {error && (
+          <div className="mb-6 p-3 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-sm text-center">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSignup} className="space-y-5 relative z-10">
           <div className="space-y-2">
@@ -101,9 +125,12 @@ export default function SignupPage() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full py-3 px-4 mt-2 rounded-xl bg-gradient-to-r from-neon-purple/90 to-blue-500 hover:from-neon-purple hover:to-blue-400 text-white font-bold tracking-wide shadow-[0_0_20px_rgba(194,119,255,0.3)] transition-all"
+            disabled={formLoading}
+            className={`w-full py-3 px-4 mt-2 rounded-xl bg-gradient-to-r from-neon-purple/90 to-blue-500 hover:from-neon-purple hover:to-blue-400 text-white font-bold tracking-wide shadow-[0_0_20px_rgba(194,119,255,0.3)] transition-all ${
+              formLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
-            Sign Up
+            {formLoading ? 'Creating Account...' : 'Sign Up'}
           </motion.button>
         </form>
 

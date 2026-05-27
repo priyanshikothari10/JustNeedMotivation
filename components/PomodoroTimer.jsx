@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { useAuth } from '@/lib/AuthContext'
 
 const FOCUS_MINUTES = 25
 const BREAK_MINUTES = 5
@@ -16,76 +17,53 @@ function getTodayKey() {
   return d.toISOString().slice(0, 10)
 }
 
-function updateStreakOnFocusCompleted() {
-  try {
-    const today = getTodayKey()
-    const streakRaw = localStorage.getItem('jnm:pomodoro:streak')
-    let currentStreak = 0
-    let longestStreak = 0
-    let lastDate = null
-
-    if (streakRaw) {
-      const parsed = JSON.parse(streakRaw)
-      currentStreak = parsed.streak ?? 0
-      longestStreak = parsed.longestStreak ?? 0
-      lastDate = parsed.lastDate ?? null
-    }
-
-    if (lastDate !== today) {
-      const todayDate = new Date(today)
-      const last = lastDate ? new Date(lastDate) : null
-      const oneDayMs = 24 * 60 * 60 * 1000
-      let nextStreak
-
-      if (last && Math.round((todayDate - last) / oneDayMs) === 1) {
-        nextStreak = currentStreak + 1
-      } else {
-        nextStreak = 1
-      }
-
-      const nextLongest = Math.max(longestStreak, nextStreak)
-
-      const payload = {
-        lastDate: today,
-        streak: nextStreak,
-        longestStreak: nextLongest
-      }
-
-      localStorage.setItem('jnm:pomodoro:streak', JSON.stringify(payload))
-
-      if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('jnm:pomodoro:streak-updated'))
-      }
-    }
-  } catch {
-    // ignore
-  }
-}
-
 export default function PomodoroTimer() {
+  const { isAuthenticated, user, syncData, loading } = useAuth()
+  
   const [mode, setMode] = useState('focus') // 'focus' | 'break'
   const [isRunning, setIsRunning] = useState(false)
   const [secondsLeft, setSecondsLeft] = useState(FOCUS_MINUTES * 60)
 
   const [completedSessions, setCompletedSessions] = useState(0)
   const [totalFocusSecondsToday, setTotalFocusSecondsToday] = useState(0)
+  const isInitialLoad = useRef(true)
 
+  // 1. Initial State Loading
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem('jnm:pomodoro:stats')
-      if (!raw) return
-      const parsed = JSON.parse(raw)
+    if (loading) return
+
+    if (isAuthenticated && user) {
       const todayKey = getTodayKey()
-      if (parsed.date === todayKey) {
-        setCompletedSessions(parsed.completedSessions ?? 0)
-        setTotalFocusSecondsToday(parsed.totalFocusSeconds ?? 0)
+      const todayStat = user.pomodoroStats?.find(p => p.date === todayKey)
+      if (todayStat) {
+        setCompletedSessions(todayStat.completedSessions ?? 0)
+        setTotalFocusSecondsToday(todayStat.totalFocusSeconds ?? 0)
+      } else {
+        setCompletedSessions(0)
+        setTotalFocusSecondsToday(0)
       }
-    } catch {
-      // ignore
+    } else {
+      try {
+        const raw = localStorage.getItem('jnm:pomodoro:stats')
+        if (raw) {
+          const parsed = JSON.parse(raw)
+          const todayKey = getTodayKey()
+          if (parsed.date === todayKey) {
+            setCompletedSessions(parsed.completedSessions ?? 0)
+            setTotalFocusSecondsToday(parsed.totalFocusSeconds ?? 0)
+          }
+        }
+      } catch {
+        // ignore
+      }
     }
-  }, [])
+    isInitialLoad.current = false
+  }, [isAuthenticated, user, loading])
 
+  // 2. Local Storage Sync (Unauthenticated only)
   useEffect(() => {
+    if (isAuthenticated || loading || isInitialLoad.current) return
+
     const todayKey = getTodayKey()
     const payload = {
       date: todayKey,
@@ -97,8 +75,9 @@ export default function PomodoroTimer() {
     } catch {
       // ignore
     }
-  }, [completedSessions, totalFocusSecondsToday])
+  }, [completedSessions, totalFocusSecondsToday, isAuthenticated, loading])
 
+  // 3. Timer interval effect
   useEffect(() => {
     if (!isRunning) return
 
@@ -115,15 +94,111 @@ export default function PomodoroTimer() {
 
     return () => clearInterval(interval)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRunning, mode])
+  }, [isRunning, mode, completedSessions, totalFocusSecondsToday])
+
+  // 4. Client-side Streak updates + DB Sync
+  function updateStreakAndSync(nextSessions, nextSeconds) {
+    const today = getTodayKey()
+    
+    if (isAuthenticated && user) {
+      let currentStreak = user.streak ?? 0
+      let longestStreak = user.longestStreak ?? 0
+      const lastDate = user.lastStreakDate ?? null
+
+      if (lastDate !== today) {
+        const todayDate = new Date(today)
+        const last = lastDate ? new Date(lastDate) : null
+        const oneDayMs = 24 * 60 * 60 * 1000
+        let nextStreak
+
+        if (last && Math.round((todayDate - last) / oneDayMs) === 1) {
+          nextStreak = currentStreak + 1
+        } else {
+          nextStreak = 1
+        }
+
+        const nextLongest = Math.max(longestStreak, nextStreak)
+
+        // Sync focus stats and streak to backend
+        syncData({
+          pomodoroStats: {
+            date: today,
+            completedSessions: nextSessions,
+            totalFocusSeconds: nextSeconds
+          },
+          streak: nextStreak,
+          longestStreak: nextLongest,
+          lastStreakDate: today
+        })
+      } else {
+        // Just sync focus stats, streak is already active today
+        syncData({
+          pomodoroStats: {
+            date: today,
+            completedSessions: nextSessions,
+            totalFocusSeconds: nextSeconds
+          }
+        })
+      }
+    } else {
+      // Local Storage Streak computation
+      try {
+        const streakRaw = localStorage.getItem('jnm:pomodoro:streak')
+        let currentStreak = 0
+        let longestStreak = 0
+        let lastDate = null
+
+        if (streakRaw) {
+          const parsed = JSON.parse(streakRaw)
+          currentStreak = parsed.streak ?? 0
+          longestStreak = parsed.longestStreak ?? 0
+          lastDate = parsed.lastDate ?? null
+        }
+
+        if (lastDate !== today) {
+          const todayDate = new Date(today)
+          const last = lastDate ? new Date(lastDate) : null
+          const oneDayMs = 24 * 60 * 60 * 1000
+          let nextStreak
+
+          if (last && Math.round((todayDate - last) / oneDayMs) === 1) {
+            nextStreak = currentStreak + 1
+          } else {
+            nextStreak = 1
+          }
+
+          const nextLongest = Math.max(longestStreak, nextStreak)
+
+          const payload = {
+            lastDate: today,
+            streak: nextStreak,
+            longestStreak: nextLongest
+          }
+
+          localStorage.setItem('jnm:pomodoro:streak', JSON.stringify(payload))
+
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('jnm:pomodoro:streak-updated'))
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }
 
   function handlePhaseEnd() {
     setIsRunning(false)
 
     if (mode === 'focus') {
-      setCompletedSessions((prev) => prev + 1)
-      setTotalFocusSecondsToday((prev) => prev + FOCUS_MINUTES * 60)
-      updateStreakOnFocusCompleted()
+      const nextSessions = completedSessions + 1
+      const nextSeconds = totalFocusSecondsToday + FOCUS_MINUTES * 60
+      
+      setCompletedSessions(nextSessions)
+      setTotalFocusSecondsToday(nextSeconds)
+      
+      updateStreakAndSync(nextSessions, nextSeconds)
+      
       setMode('break')
       setSecondsLeft(BREAK_MINUTES * 60)
       setIsRunning(true)
@@ -264,4 +339,3 @@ export default function PomodoroTimer() {
     </div>
   )
 }
-

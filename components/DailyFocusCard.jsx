@@ -1,21 +1,43 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import { useAuth } from '@/lib/AuthContext'
 
 export default function DailyFocusCard() {
+  const { isAuthenticated, user, syncData, loading } = useAuth()
   const [focus, setFocus] = useState('')
+  const [hydrated, setHydrated] = useState(false)
+
   useEffect(() => {
+    if (loading) return
+
+    if (isAuthenticated && user) {
+      setFocus(user.focusGoal || '')
+      setHydrated(true)
+      return
+    }
+
     try {
       const stored = localStorage.getItem('jnm:focus')
       if (stored) setFocus(stored)
     } catch (e) {}
-  }, [])
+    setHydrated(true)
+  }, [isAuthenticated, user, loading])
 
   useEffect(() => {
+    if (!hydrated) return
+
+    if (isAuthenticated) {
+      const t = setTimeout(() => {
+        syncData({ focusGoal: focus })
+      }, 400)
+      return () => clearTimeout(t)
+    }
+
     try {
       localStorage.setItem('jnm:focus', focus)
     } catch (e) {}
-  }, [focus])
+  }, [focus, hydrated, isAuthenticated, syncData])
 
   return (
     <div className="card flex flex-col md:flex-row items-start md:items-center justify-between gap-4">

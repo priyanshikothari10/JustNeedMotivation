@@ -3,15 +3,26 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useAuth } from '@/lib/AuthContext'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [formLoading, setFormLoading] = useState(false)
+  
+  const { login } = useAuth()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    // Integration logic here
-    console.log('Logging in with:', { email, password })
+    setError('')
+    setFormLoading(true)
+    
+    const result = await login(email, password)
+    if (!result.success) {
+      setError(result.error || 'Failed to sign in. Please try again.')
+      setFormLoading(false)
+    }
   }
 
   return (
@@ -29,6 +40,12 @@ export default function LoginPage() {
           <h2 className="text-3xl font-bold tracking-tight text-white mb-2">Welcome Back</h2>
           <p className="text-sm text-gray-400">Log in to keep your momentum going.</p>
         </div>
+
+        {error && (
+          <div className="mb-6 p-3 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 text-sm text-center">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-6 relative z-10">
           <div className="space-y-2">
@@ -70,9 +87,12 @@ export default function LoginPage() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-neon-green/90 to-emerald-400 hover:from-neon-green hover:to-emerald-300 text-black font-bold tracking-wide shadow-[0_0_20px_rgba(57,255,20,0.3)] transition-all"
+            disabled={formLoading}
+            className={`w-full py-3 px-4 rounded-xl bg-gradient-to-r from-neon-green/90 to-emerald-400 hover:from-neon-green hover:to-emerald-300 text-black font-bold tracking-wide shadow-[0_0_20px_rgba(57,255,20,0.3)] transition-all ${
+              formLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
-            Sign In
+            {formLoading ? 'Signing In...' : 'Sign In'}
           </motion.button>
         </form>
 

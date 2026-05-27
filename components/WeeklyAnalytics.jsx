@@ -13,6 +13,7 @@ import {
   Filler
 } from 'chart.js'
 import { Bar, Line } from 'react-chartjs-2'
+import { useAuth } from '@/lib/AuthContext'
 
 ChartJS.register(
   CategoryScale,
@@ -41,47 +42,67 @@ function getLast7Days() {
 }
 
 export default function WeeklyAnalytics() {
+  const { isAuthenticated, user } = useAuth()
   const [labels, setLabels] = useState([])
   const [tasksPerDay, setTasksPerDay] = useState([])
   const [focusMinutesPerDay, setFocusMinutesPerDay] = useState([])
 
   useEffect(() => {
-    try {
-      const days = getLast7Days()
-      const taskCounts = new Array(days.length).fill(0)
-      const focusMinutes = new Array(days.length).fill(0)
-
-      // Tasks: we only know current list, assume they belong to "today"
-      const tasksRaw = typeof window !== 'undefined' ? localStorage.getItem('jnm:tasks') : null
-      if (tasksRaw) {
-        const tasks = JSON.parse(tasksRaw)
-        const completedCount = tasks.filter((t) => t.completed).length
-        const todayKey = days[days.length - 1].key
-        const todayIndex = days.findIndex((d) => d.key === todayKey)
-        if (todayIndex !== -1) {
-          taskCounts[todayIndex] = completedCount
+    async function fetchAnalytics() {
+      try {
+        const res = await fetch('/api/user/analytics')
+        if (res.ok) {
+          const data = await res.json()
+          if (data.success) {
+            setLabels(data.labels)
+            setTasksPerDay(data.tasksPerDay)
+            setFocusMinutesPerDay(data.focusMinutesPerDay)
+          }
         }
+      } catch (err) {
+        console.error('Error fetching backend analytics:', err)
       }
-
-      // Focus time: read from pomodoro stats (today only)
-      const statsRaw =
-        typeof window !== 'undefined' ? localStorage.getItem('jnm:pomodoro:stats') : null
-      if (statsRaw) {
-        const stats = JSON.parse(statsRaw)
-        const idx = days.findIndex((d) => d.key === stats.date)
-        if (idx !== -1) {
-          const minutes = Math.round((stats.totalFocusSeconds ?? 0) / 60)
-          focusMinutes[idx] = minutes
-        }
-      }
-
-      setLabels(days.map((d) => d.label))
-      setTasksPerDay(taskCounts)
-      setFocusMinutesPerDay(focusMinutes)
-    } catch {
-      // ignore parse errors
     }
-  }, [])
+
+    if (isAuthenticated) {
+      fetchAnalytics()
+    } else {
+      // Local storage fallback
+      try {
+        const days = getLast7Days()
+        const taskCounts = new Array(days.length).fill(0)
+        const focusMinutes = new Array(days.length).fill(0)
+
+        const tasksRaw = typeof window !== 'undefined' ? localStorage.getItem('jnm:tasks') : null
+        if (tasksRaw) {
+          const tasks = JSON.parse(tasksRaw)
+          const completedCount = tasks.filter((t) => t.completed).length
+          const todayKey = days[days.length - 1].key
+          const todayIndex = days.findIndex((d) => d.key === todayKey)
+          if (todayIndex !== -1) {
+            taskCounts[todayIndex] = completedCount
+          }
+        }
+
+        const statsRaw =
+          typeof window !== 'undefined' ? localStorage.getItem('jnm:pomodoro:stats') : null
+        if (statsRaw) {
+          const stats = JSON.parse(statsRaw)
+          const idx = days.findIndex((d) => d.key === stats.date)
+          if (idx !== -1) {
+            const minutes = Math.round((stats.totalFocusSeconds ?? 0) / 60)
+            focusMinutes[idx] = minutes
+          }
+        }
+
+        setLabels(days.map((d) => d.label))
+        setTasksPerDay(taskCounts)
+        setFocusMinutesPerDay(focusMinutes)
+      } catch {
+        // ignore parse errors
+      }
+    }
+  }, [isAuthenticated, user])
 
   const barData = {
     labels,
@@ -173,4 +194,3 @@ export default function WeeklyAnalytics() {
     </div>
   )
 }
-

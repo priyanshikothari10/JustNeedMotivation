@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from 'react'
+import { useAuth } from '@/lib/AuthContext'
 
 function getTodayKey() {
   const d = new Date()
@@ -17,6 +18,7 @@ function isYesterday(dateStr) {
 }
 
 export default function DeepWorkStreak() {
+  const { isAuthenticated, user } = useAuth()
   const [streak, setStreak] = useState(0)
   const [longestStreak, setLongestStreak] = useState(0)
 
@@ -73,6 +75,17 @@ export default function DeepWorkStreak() {
   }
 
   useEffect(() => {
+    if (isAuthenticated && user) {
+      setStreak(user.streak || 0)
+      setLongestStreak(user.longestStreak || 0)
+    } else {
+      readAndComputeStreak()
+    }
+  }, [isAuthenticated, user])
+
+  useEffect(() => {
+    if (isAuthenticated) return
+
     readAndComputeStreak()
 
     function handleCustomUpdate() {
@@ -88,7 +101,7 @@ export default function DeepWorkStreak() {
         window.removeEventListener('jnm:pomodoro:streak-updated', handleCustomUpdate)
       }
     }
-  }, [])
+  }, [isAuthenticated])
 
   return (
     <div className="card space-y-3">
@@ -118,4 +131,3 @@ export default function DeepWorkStreak() {
     </div>
   )
 }
-
