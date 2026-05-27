@@ -4,6 +4,7 @@ import User from '@/models/User'
 import { hashPassword, createToken } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(request) {
   try {
@@ -69,6 +70,17 @@ export async function POST(request) {
     return response
   } catch (error) {
     console.error('Signup API Error:', error)
+
+    // Duplicate email race-condition safety
+    if (error?.code === 11000 && error?.keyPattern?.email) {
+      return NextResponse.json({ error: 'Email is already registered' }, { status: 400 })
+    }
+
+    const message = String(error?.message || '')
+    if (message.includes('MongoDB connection string is not set')) {
+      return NextResponse.json({ error: 'Server database is not configured yet. Please try again soon.' }, { status: 500 })
+    }
+
     return NextResponse.json({ error: 'Server error during registration' }, { status: 500 })
   }
 }

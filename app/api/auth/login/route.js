@@ -4,6 +4,7 @@ import User from '@/models/User'
 import { verifyPassword, createToken } from '@/lib/auth'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export async function POST(request) {
   try {
@@ -53,6 +54,12 @@ export async function POST(request) {
     return response
   } catch (error) {
     console.error('Login API Error:', error)
+
+    const message = String(error?.message || '')
+    if (message.includes('MongoDB connection string is not set')) {
+      return NextResponse.json({ error: 'Server database is not configured yet. Please try again soon.' }, { status: 500 })
+    }
+
     return NextResponse.json({ error: 'Server error during sign in' }, { status: 500 })
   }
 }

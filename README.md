@@ -178,18 +178,19 @@ Smooth animated transitions
 
 Minimalistic, distraction-free interface  
 
-<<<<<<< HEAD
 ## ✨ New Feature: Productivity Dashboard
 
 - 🎯 Set your main goal for the day (DSA / AWS / College / Python)
 - ⏱️ Focus Timer to boost deep work sessions
 - ✅ Task Manager to track daily progress
 - 📊 Weekly Productivity Analytics (tasks completed + focus minutes)
+- 🔐 Sign Up / Login with cloud sync
+- 📝 Daily journal entries and reflection history
+- 🧩 Daily challenges tracking
+- ❤️ Favorite/bookmarked motivational quotes
+- 📈 Personal stats and weekly analytics from user data
 
 This feature helps users stay consistent, organized, and productive.
-
-=======
->>>>>>> 50850b8 (docs: improve README with detailed project overview and setup guide)
 
 
 \## Navigation
@@ -300,9 +301,18 @@ npm install
 
 ```
 
+\## 3️⃣ Environment Variables
+
+Create a `.env` file in the project root:
+
+```bash
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
 
 
-\## 3️⃣ Run Development Server
+
+\## 4️⃣ Run Development Server
 
 
 
@@ -394,21 +404,25 @@ npm start
 
 
 
-\# 🔮 Roadmap (Future Enhancements)
+\# 🔮 Roadmap
 
 
 
-⏳ Pomodoro Timer Integration  
+✅ Pomodoro Timer Integration  
 
-🏆 Gamification (XP \& Levels)  
+✅ Weekly Analytics Dashboard  
 
-📅 Weekly/Monthly Analytics Dashboard  
+✅ Backend Integration (MongoDB + API routes)  
 
-☁ Backend Integration (AWS + Database)  
+✅ Authentication System (Sign Up / Login / Logout / Session)  
 
-🤖 AI-based Motivation Generator  
+✅ Daily Quote API with favorites/bookmarks  
 
-🔐 Authentication System  
+✅ Daily streak, goals progress, journal, and challenges sync  
+
+⏳ Gamification (XP \& Levels)  
+
+⏳ AI-based Motivation Generator  
 
 
 
@@ -539,10 +553,7 @@ MIT License
 ## 🌐 Live Demo
 
 
-<<<<<<< HEAD
 ✨ JustNeedMotivation – Live at: https://justneedmotivation.vercel.app
-
->>>>>>> 50850b8 (docs: improve README with detailed project overview and setup guide)
 
 
 
