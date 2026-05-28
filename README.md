@@ -10,41 +10,33 @@ A modern productivity and motivation web application built with \*\*Next.js 14\*
 
 
 
+A modern productivity and motivation web application built with **Next.js 14**, designed to help users set daily goals, manage tasks, track progress visually, and stay consistent.
+
 ---
 
+# 🆕 Recent Updates
 
+## Version 1.1.0 – Smart Learning AI Agent (AI Mentor) Update 🧠✨
 
-\# 🆕 Recent Updates
+🧠 **Intelligent AI Tutor (Gemini 2.5 Flash)**: Context-aware responses based on name, daily tasks, study history, weak areas, and streak logs.
+📋 **Dynamic Interactive Mini Quizzes**: Automatically parses AI-generated quizzes to render beautiful multiple-choice forms, instant feedback, and scoring sync.
+🗂️ **Flippable Flashcards Carousel**: AI-generated study cards that can be rated (Easy/Ok/Hard) to automatically schedule next review dates.
+📝 **Manual Study Logger**: Convenient log widget for lessons completed, videos watched, notes written, or quiz scores.
+🔮 **Smart Floating AI Assistant**: Glowing quick-access chat widget present globally across all pages.
+💡 **Weekly AI Recap & Summary**: Summarizes the past 7 days of studies into motivational progress tips.
+⚙️ **Local Settings Fallback**: Users can paste custom Gemini API Keys locally if the environment lacks one.
 
-
-
-\## Version 1.0.0 – Initial Stable Release ✨
-
-
+## Version 1.0.0 – Initial Stable Release ✨
 
 🔧 Fully Functional Task System  
-
 🎯 Daily Focus Goal Implementation  
-
 📊 Interactive Progress Charts (Chart.js)  
-
 🎨 Smooth UI Animations (Framer Motion)  
-
 🌙 Dark-Themed Professional Interface  
-
-📅 Date Tracking \& Daily Reset Logic  
-
+📅 Date Tracking & Daily Reset Logic  
 📈 Visual Progress Indicators  
-
 ⚡ Optimized Performance with Next.js 14  
 
-
-
----
-
-
-
-\# ✅ Application Status
 
 
 
@@ -144,19 +136,19 @@ The system emphasizes simplicity, performance, and user experience.
 
 \## 🎨 User Interface
 
+- Dark-themed modern UI
+- Tailwind CSS responsive styling
+- Framer Motion animations
+- Smooth transitions between sections
+- Clean layout with modular components
 
+## 🧠 Smart Learning AI Agent (AI Mentor)
 
-\- Dark-themed modern UI
-
-\- Tailwind CSS responsive styling
-
-\- Framer Motion animations
-
-\- Smooth transitions between sections
-
-\- Clean layout with modular components
-
-
+- **Context-Aware Personal Tutor**: Automatically references studied topics, active tasks, weak concepts, and streak stats for custom tutoring.
+- **Interactive Quiz Player**: Parses AI response blocks to render live multiple choice forms with instant grading and database score logging.
+- **Flippable Flashcards Carousel**: AI-generated study cards that rate review difficulty (Easy/Ok/Hard) to schedule next review date automatically.
+- **AI-Compiled Weekly Recaps**: Summarizes the past 7 days of learning history with recommendations.
+- **Global Quick Drawer**: Floating glowing chat drawer widget accessible globally on any route.
 
 ---
 
@@ -401,60 +393,42 @@ npm start
 
 
 ---
+---
 
+# 🎯 Usage Guide
 
+## Getting Started
 
-\# 🔮 Roadmap
+1. Set your daily focus goal
+2. Add tasks
+3. Complete tasks
+4. Monitor progress percentage
+5. Track consistency over time
 
+---
 
+# 🔮 Roadmap
 
 ✅ Pomodoro Timer Integration  
-
 ✅ Weekly Analytics Dashboard  
-
 ✅ Backend Integration (MongoDB + API routes)  
-
 ✅ Authentication System (Sign Up / Login / Logout / Session)  
-
 ✅ Daily Quote API with favorites/bookmarks  
-
 ✅ Daily streak, goals progress, journal, and challenges sync  
-
-⏳ Gamification (XP \& Levels)  
-
-⏳ AI-based Motivation Generator  
-
-
+✅ AI-powered Study Tutor & Motivation Mentor  
+⏳ Gamification (XP & Levels)  
 
 ---
 
-
-
-\# 🧪 Testing Checklist
-
-
+# 🧪 Testing Checklist
 
 &nbsp;Application loads successfully ✅  
-
 &nbsp;Task creation works correctly ✅  
-
 &nbsp;Task completion updates progress ✅  
-
 &nbsp;Charts render correctly ✅  
-
 &nbsp;Roadmap page accessible ✅  
-
 &nbsp;Responsive layout verified ✅  
-
 &nbsp;Animations work smoothly ✅  
-
-
-
----
-
-
-
-\# 🏗 Project Structure
 
 
 

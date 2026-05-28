@@ -1,6 +1,7 @@
 import './globals.css'
 import { AuthProvider } from '@/lib/AuthContext'
 import Header from '@/components/Header'
+import FloatingAIAssistant from '@/components/FloatingAIAssistant'
 
 export const metadata = {
   title: 'JustNeedMotivation',
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
             <Header />
 
             <main>{children}</main>
+            <FloatingAIAssistant />
             <footer className="py-8 text-center text-sm text-gray-500">Made with care • Keep going — you’re doing fine</footer>
           </div>
         </AuthProvider>

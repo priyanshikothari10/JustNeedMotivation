@@ -51,6 +51,35 @@ const RoadmapItemSchema = new mongoose.Schema({
   progress: { type: Number, default: 0 } // goal progress 0-100%
 })
 
+const LearningActivitySchema = new mongoose.Schema({
+  type: { type: String, enum: ['lesson', 'video', 'note', 'quiz', 'topic'], required: true },
+  title: { type: String, required: true },
+  details: { type: String }, // e.g. quiz details, notes text, video length
+  score: { type: Number }, // for quizzes (0 - 100)
+  totalQuestions: { type: Number },
+  timestamp: { type: Date, default: Date.now }
+})
+
+const FlashcardSchema = new mongoose.Schema({
+  front: { type: String, required: true },
+  back: { type: String, required: true },
+  difficulty: { type: String, enum: ['easy', 'medium', 'hard'], default: 'medium' },
+  nextReviewDate: { type: Date, default: Date.now }
+})
+
+const MessageSchema = new mongoose.Schema({
+  sender: { type: String, enum: ['user', 'ai'], required: true },
+  text: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now }
+})
+
+const ConversationSchema = new mongoose.Schema({
+  id: { type: String, required: true },
+  title: { type: String, default: 'New Chat' },
+  messages: [MessageSchema],
+  updatedAt: { type: Date, default: Date.now }
+})
+
 const UserSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -65,7 +94,10 @@ const UserSchema = new mongoose.Schema(
     journalEntries: [JournalEntrySchema],
     challenges: [DailyChallengeSchema],
     roadmap: [RoadmapItemSchema],
-    favoriteQuotes: [{ type: String }] // array of quote texts
+    favoriteQuotes: [{ type: String }], // array of quote texts
+    learningHistory: [LearningActivitySchema],
+    flashcards: [FlashcardSchema],
+    aiConversations: [ConversationSchema]
   },
   {
     timestamps: true

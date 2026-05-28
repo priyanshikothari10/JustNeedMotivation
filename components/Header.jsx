@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 import { useAuth } from '@/lib/AuthContext'
+import ThemeToggle from '@/components/ThemeToggle'
 
 export default function Header() {
   const { isAuthenticated, user, logout } = useAuth()
@@ -18,7 +19,12 @@ export default function Header() {
         <Link href="/daily" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Daily Log</Link>
         <Link href="/roadmap" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Roadmap</Link>
         <Link href="/rewards" className="px-3 py-1 rounded-md hover:bg-white/3 transition">Rewards</Link>
+        <Link href="/mentor" className="px-3 py-1 rounded-md hover:bg-white/3 text-neon-purple font-semibold hover:text-neon-purple/80 transition">AI Mentor</Link>
         
+        <div className="flex items-center gap-2 ml-1">
+          <ThemeToggle />
+        </div>
+
         {isAuthenticated && user ? (
           <div className="flex items-center gap-3 ml-2">
             <span className="text-gray-400 text-xs">
