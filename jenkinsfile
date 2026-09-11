@@ -2,6 +2,10 @@ pipeline {
     agent {
         label 'DevServer'
     }
+    parameters {
+  string defaultValue: 'JUSTNEEDMOTIVATION', name: 'PROJECT '
+}
+
     environment {
         NAME = 'JustNeedMotivation'
     }
