@@ -3,20 +3,23 @@ pipeline {
         label 'DevServer'
     }
 
-    tools {
-        maven 'My_maven'
-    }
-
     stages {
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh 'npm run lint'
+            }
+        }
+
         stage('Build') {
             steps {
-                sh 'mvn clean install'
-            }
-
-            post {
-                success {
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
+                sh 'npm run build'
             }
         }
     }
