@@ -28,7 +28,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm run build'
-                echo "Hello $NAME"
+                echo "Hello From $NAME"
             }
         }
     }
