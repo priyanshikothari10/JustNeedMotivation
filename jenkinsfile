@@ -2,12 +2,16 @@ pipeline {
     agent {
         label 'DevServer'
     }
+    environment {
+        NAME = 'JustNeedMotivation'
+    }
 
     stages {
 
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
+                echo "Dependencies installed successfully."
             }
         }
 
@@ -20,6 +24,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm run build'
+                echo "Hello $NAME"
             }
         }
     }
