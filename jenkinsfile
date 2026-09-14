@@ -4,20 +4,6 @@ pipeline {
     }
 
     parameters {
-          choice choices: ['dev', 'prod'], name: 'select_environment'
-    }
-
-    environment {
-        NAME = 'JustNeedMotivation'
-    }
-
-    stages {
-pipeline {
-    agent {
-        label 'DevServer'
-    }
-
-    parameters {
         choice(
             choices: ['dev', 'prod'],
             name: 'select_environment'
@@ -98,67 +84,5 @@ pipeline {
                 echo 'Next.js build files restored successfully.'
             }
         }
-    }
-}
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm ci'
-                echo "Dependencies installed successfully."
-            }
-        }
-
-        stage('Lint') {
-            steps {
-                sh 'npm run lint'
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-                echo "Hello From $NAME"
-            }
-        }
-         stage('Stash Build') {
-            steps {
-                stash name: 'next-build', includes: '.next/**'
-                echo 'Next.js build files stashed successfully.'
-            }
-        }
-
-        stage('Test') {
-            parallel {
-
-                stage('Test A') {
-                    agent {
-                        label 'DevServer'
-                    }
-                    steps {
-                        sh 'npm test'
-                        echo "This is test A"
-
-                    }
-                }
-
-                stage('Test B') {
-                    agent {
-                        label 'DevServer'
-                    }
-                    steps {
-                        sh 'npm test'
-                         echo "This is test B"
-
-                    }
-                }
-            }
-        }
-        stage('Deploy') {
-    steps {
-        dir('/var/www/html') {
-            unstash 'next-build'
-            sh 'ls -la .next'
-        }
-
-        echo 'Next.js build files restored successfully.'
     }
 }
