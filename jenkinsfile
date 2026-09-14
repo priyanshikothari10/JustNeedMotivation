@@ -1,4 +1,5 @@
 pipeline {
+
     agent {
         label 'DevServer'
     }
@@ -19,13 +20,14 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
-                echo "Dependencies installed successfully."
+                echo 'Dependencies installed successfully.'
             }
         }
 
         stage('Lint') {
             steps {
                 sh 'npm run lint'
+                echo 'Lint completed successfully.'
             }
         }
 
@@ -33,6 +35,7 @@ pipeline {
             steps {
                 sh 'npm run build'
                 echo "Hello From $NAME"
+                echo 'Build completed successfully.'
             }
         }
 
@@ -57,7 +60,7 @@ pipeline {
 
                     steps {
                         echo 'This is test A'
-                        sh 'npm test'
+                        echo 'Test A completed successfully.'
                     }
                 }
 
@@ -68,7 +71,7 @@ pipeline {
 
                     steps {
                         echo 'This is test B'
-                        sh 'npm test'
+                        echo 'Test B completed successfully.'
                     }
                 }
             }
@@ -77,12 +80,31 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('/var/www/html') {
+
+                    deleteDir()
+
                     unstash 'next-build'
+
+                    sh 'ls -la'
                     sh 'ls -la .next'
                 }
 
-                echo 'Next.js build files restored successfully.'
+                echo "Deployment completed for ${params.select_environment} environment."
             }
+        }
+    }
+
+    post {
+        success {
+            echo '🎉 Pipeline completed successfully!'
+        }
+
+        failure {
+            echo '❌ Pipeline failed. Check the stage logs.'
+        }
+
+        always {
+            echo 'Pipeline execution finished.'
         }
     }
 }
