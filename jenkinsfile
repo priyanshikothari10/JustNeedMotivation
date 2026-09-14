@@ -32,11 +32,20 @@ pipeline {
                 echo "Hello From $NAME"
             }
         }
+         stage('Stash Build') {
+            steps {
+                stash name: 'next-build', includes: '.next/**'
+                echo 'Next.js build files stashed successfully.'
+            }
+        }
 
         stage('Test') {
             parallel {
 
                 stage('Test A') {
+                    agent {
+                        label 'DevServer'
+                    }
                     steps {
                         sh 'npm test'
                         echo "This is test A"
@@ -45,6 +54,9 @@ pipeline {
                 }
 
                 stage('Test B') {
+                    agent {
+                        label 'DevServer'
+                    }
                     steps {
                         sh 'npm test'
                          echo "This is test B"
@@ -53,11 +65,13 @@ pipeline {
                 }
             }
         }
-    }
+        stage('Deploy') {
+    steps {
+        dir('/var/www/html') {
+            unstash 'next-build'
+            sh 'ls -la .next'
+        }
 
-    post {
-    success {
-        archiveArtifacts artifacts: '.next/**', fingerprint: true
+        echo 'Next.js build files restored successfully.'
     }
-}
 }
