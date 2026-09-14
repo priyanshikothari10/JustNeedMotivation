@@ -2,12 +2,13 @@ pipeline {
     agent {
         label 'DevServer'
     }
-   parameters {
-    string(
-        defaultValue: 'JUSTNEEDMOTIVATION',
-        name: 'PROJECT'
-    )
-}
+
+    parameters {
+        string(
+            defaultValue: 'JUSTNEEDMOTIVATION',
+            name: 'PROJECT'
+        )
+    }
 
     environment {
         NAME = 'JustNeedMotivation'
@@ -34,24 +35,28 @@ pipeline {
                 echo "Hello From $NAME"
             }
         }
+
         stage('Test') {
             parallel {
+
                 stage('Test A') {
-                    steps{
-                echo "This is test A"
+                    steps {
+                        echo "This is test A"
                     }
-            }
-            stage('Test B') {
-                steps{
-                echo "This is test B"
                 }
-            }
-        }
-        post{
-            success{
-                archiveArtifacts artifacts: '**/target/*.war'
+
+                stage('Test B') {
+                    steps {
+                        echo "This is test B"
+                    }
+                }
             }
         }
     }
 
+    post {
+        success {
+            archiveArtifacts artifacts: '**/target/*.war'
+        }
+    }
 }
