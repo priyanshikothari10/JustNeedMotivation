@@ -37,10 +37,14 @@ pipeline {
         stage('Test') {
             parallel {
                 stage('Test A') {
+                    steps{
                 echo "This is test A"
+                    }
             }
             stage('Test B') {
+                steps{
                 echo "This is test B"
+                }
             }
         }
         post{
