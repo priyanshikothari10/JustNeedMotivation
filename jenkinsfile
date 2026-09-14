@@ -34,5 +34,20 @@ pipeline {
                 echo "Hello From $NAME"
             }
         }
+        stage('Test') {
+            parallel {
+                stage('Test A') {
+                echo "This is test A"
+            }
+            stage('Test B') {
+                echo "This is test B"
+            }
+        }
+        post{
+            success{
+                archiveArtifacts artifacts: '**/target/*.war'
+            }
+        }
     }
+
 }
