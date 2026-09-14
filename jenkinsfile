@@ -54,10 +54,6 @@ pipeline {
             parallel {
 
                 stage('Test A') {
-                    agent {
-                        label 'DevServer'
-                    }
-
                     steps {
                         echo 'This is test A'
                         echo 'Test A completed successfully.'
@@ -65,10 +61,6 @@ pipeline {
                 }
 
                 stage('Test B') {
-                    agent {
-                        label 'DevServer'
-                    }
-
                     steps {
                         echo 'This is test B'
                         echo 'Test B completed successfully.'
