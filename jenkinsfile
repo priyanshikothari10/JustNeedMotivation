@@ -4,10 +4,7 @@ pipeline {
     }
 
     parameters {
-        string(
-            defaultValue: 'JUSTNEEDMOTIVATION',
-            name: 'PROJECT'
-        )
+          choice choices: ['dev', 'prod'], name: 'select_environment'
     }
 
     environment {
@@ -41,13 +38,17 @@ pipeline {
 
                 stage('Test A') {
                     steps {
+                        sh 'npm test'
                         echo "This is test A"
+
                     }
                 }
 
                 stage('Test B') {
                     steps {
-                        echo "This is test B"
+                        sh 'npm test'
+                         echo "This is test B"
+
                     }
                 }
             }
