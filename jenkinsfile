@@ -55,8 +55,8 @@ pipeline {
     }
 
     post {
-        success {
-            archiveArtifacts artifacts: '**/target/*.war'
-        }
+    success {
+        archiveArtifacts artifacts: '.next/**', fingerprint: true
     }
+}
 }
