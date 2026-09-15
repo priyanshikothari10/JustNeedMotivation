@@ -33,6 +33,10 @@ pipeline {
 
         stage('Build') {
             steps {
+                script{
+                    file = load "script.groovy"
+                    file.hello()
+                }
                 sh 'npm run build'
                 echo "Hello From $NAME"
                 echo 'Build completed successfully.'
@@ -106,6 +110,7 @@ pipeline {
             }
 
             steps {
+                input message:'Deployment approved?'
                 dir('/var/www/html') {
                     deleteDir()
                     unstash 'next-build'
