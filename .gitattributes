@@ -1,0 +1,7 @@
+# Use LF line endings for Kubernetes YAML files
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Use LF line endings for Jenkins and shell scripts
+Jenkinsfile text eol=lf
+*.sh text eol=lf
