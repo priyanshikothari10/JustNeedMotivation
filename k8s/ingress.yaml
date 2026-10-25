@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: justneedmotivation
+  namespace: justneedmotivation
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: jnm.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: justneedmotivation
+                port:
+                  number: 80
+  # Uncomment after issuing a certificate with cert-manager.
+  # tls:
+  #   - hosts:
+  #       - jnm.example.com
+  #     secretName: justneedmotivation-tls

@@ -1,4 +1,10 @@
-node_modules
-.next
+node_modules/
+.next/
+out/
 .env
-out
+.env.*
+*.log
+terraform/.terraform/
+terraform/*.tfstate*
+terraform/*.tfvars
+k8s/secret.yaml
